@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import signupImg from "../assets/images/signup.gif";
 import avatar from "../assets/images/doctor-img01.png";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewURL, setPreviewURL] = useState("");
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    photo: selectedFile,
+    gender: "",
+    role: "patient",
   });
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleFileInputChange = async (event) => {
+    const file = event.target.files[0];
+    // later we will use cloudinary to upload images
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+  };
+
   return (
     <section className="px-5 xl:px-0">
       <div className="max-w-[1170px] mx-auto">
@@ -30,13 +45,14 @@ const Signup = () => {
               Create an <span className="text-primaryColor">account</span>
             </h3>
 
-            <form>
+            <form onSubmit={submitHandler}>
               <div className="mb-5">
                 <input
                   type="text"
                   placeholder="Full Name"
                   name="name"
-                  value=""
+                  value={formData.name}
+                  onChange={handleInputChange}
                   className="w-full pr-4  py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor  cursor-pointer"
                   required
                 />
@@ -46,7 +62,8 @@ const Signup = () => {
                   type="email"
                   placeholder="Enter your email"
                   name="email"
-                  value=""
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className="w-full pr-4  py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor  cursor-pointer"
                   required
                 />
@@ -56,7 +73,8 @@ const Signup = () => {
                   type="password"
                   placeholder="Password"
                   name="password"
-                  value=""
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className="w-full pr-4  py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor  cursor-pointer"
                   required
                 />
@@ -67,6 +85,8 @@ const Signup = () => {
                   Are you a:
                   <select
                     name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
                     className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
                   >
                     <option value="patient">Patient</option>
@@ -78,6 +98,8 @@ const Signup = () => {
                   Gender:
                   <select
                     name="gender"
+                    value={formData.gender}
+                    onChange={handleInputChange}
                     className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
                   >
                     <option value="">Select</option>
@@ -98,6 +120,7 @@ const Signup = () => {
                     type="file"
                     name="photo"
                     id="customFile"
+                    onChange={handleFileInputChange}
                     accept=".jpg, .png"
                     className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
                   />
