@@ -1,11 +1,17 @@
 import User from "../models/UserSchema.js";
 import Doctor from "../models/DoctorSchema.js";
-import jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const generateToken = user=>{
-  return jwt.sign({id:user._id, role:user.role}, process.env.JWT_SECRET_key)
-}
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: "15d",
+    }
+  );
+};
 
 export const register = async (req, res) => {
   const { email, password, name, role, photo, gender } = req.body;
@@ -61,7 +67,7 @@ export const register = async (req, res) => {
   }
 };
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email } = req.body;
 
   try {
     let user = null;
@@ -75,20 +81,36 @@ export const login = async (req, res) => {
       user = doctor;
     }
 
-    // check if user exist or not 
-    if(!user){
-      return res.status(404).json({message: "User not found"})
-    };
+    // check if user exist or not
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     // compare password
-   const isPasswordMatch = await bcrypt.compare(password, user.password)
+    const isPasswordMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
 
-   if(!isPasswordMatch){
-    return res.status(400).json({ status:false, message: "Invalid credentials"})
-   }
+    if (!isPasswordMatch) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid credentials" });
+    }
 
-  //  get token
-  const token = generateToken(user)
+    //  get token
+    const token = generateToken(user);
 
-  } catch (error) {}
+    const { password, role, appointments, ...rest } = user._doc;
+
+    res.status(200).json({
+      status: true,
+      message: "Successfully login",
+      token,
+      data: { ...rest },
+      role,
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, message: "Failed to login" });
+  }
 };
