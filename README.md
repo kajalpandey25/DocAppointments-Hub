@@ -16,8 +16,13 @@ Welcome to the Doctor Appointment website repository! This platform is designed 
 - MongoDB: Database
 - Express.js
 
-## Contact Us
+## Deployment link:
+https://docappointment-hub.netlify.app/
 
+## Connect with Us
+Let's connect on LinkedIn:
+
+Kajal Pandey 🙎‍♀️
 
 Thank you for visiting the Doctor Appointment website repository. We hope this platform serves as a valuable resource in enhancing healthcare accessibility.
 Happy coding!
