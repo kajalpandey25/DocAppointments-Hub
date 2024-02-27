@@ -22,7 +22,7 @@ https://docappointment-hub.netlify.app/
 ## Connect with Us
 Let's connect on LinkedIn:
 
-Kajal Pandey 🙎‍♀️
+- [Kajal Pandey 🙎‍♀️](https://www.linkedin.com/in/kajal-pandey-08b312260/)
 
 Thank you for visiting the Doctor Appointment website repository. We hope this platform serves as a valuable resource in enhancing healthcare accessibility.
 Happy coding!
